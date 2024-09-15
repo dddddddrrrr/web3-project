@@ -15,7 +15,7 @@ declare module "next-auth" {
       id: string;
       name: string | undefined | null;
       image: string | undefined | null;
-      walletAddress: string | undefined | null;
+      btcWalletAddress: string | undefined | null;
       ethWalletAddress: string | undefined | null;
       walletChainId: string | undefined | null;
       walletProvider: string | undefined | null;
@@ -27,7 +27,7 @@ declare module "next-auth" {
     id: string;
     name: string | undefined | null;
     image: string | undefined | null;
-    walletAddress: string | undefined | null;
+    btcWalletAddress: string | undefined | null;
     ethWalletAddress: string | undefined | null;
     walletChainId: string | undefined | null;
     walletProvider: string | undefined | null;
@@ -43,7 +43,7 @@ export const authOptions: NextAuthOptions = {
         session.user.name = token.name;
         session.user.image = token.image as string;
         session.user.role = token.role as number;
-        session.user.walletAddress = token.walletAddress as string;
+        session.user.btcWalletAddress = token.btcWalletAddress as string;
         session.user.ethWalletAddress = token.ethWalletAddress as string;
         session.user.walletChainId = token.walletChainId as string;
         session.user.walletProvider = token.walletProvider as string;
@@ -63,8 +63,8 @@ export const authOptions: NextAuthOptions = {
           token.ethWalletChainId = user.walletChainId;
           token.ethWalletProvider = user.walletProvider;
         }
-        if (user.walletAddress) {
-          token.walletAddress = user.walletAddress;
+        if (user.btcWalletAddress) {
+          token.btcWalletAddress = user.btcWalletAddress;
           token.walletChainId = user.walletChainId;
           token.walletProvider = user.walletProvider;
         }
@@ -129,7 +129,7 @@ export const authOptions: NextAuthOptions = {
           id: user.id,
           name: user.name,
           image: user.image,
-          walletAddress: user.btcAddress ?? null,
+          btcWalletAddress: user.btcAddress ?? null,
           ethWalletAddress: user.ethAddress ?? null,
           walletChainId: user.walletChainId ?? null,
           walletProvider: user.walletProvider ?? null,
