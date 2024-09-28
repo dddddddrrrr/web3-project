@@ -60,8 +60,8 @@ export const authOptions: NextAuthOptions = {
 
         if (user.ethWalletAddress) {
           token.ethWalletAddress = user.ethWalletAddress;
-          token.ethWalletChainId = user.walletChainId;
-          token.ethWalletProvider = user.walletProvider;
+          token.walletChainId = user.walletChainId;
+          token.walletProvider = user.walletProvider;
         }
         if (user.btcWalletAddress) {
           token.btcWalletAddress = user.btcWalletAddress;
@@ -108,21 +108,25 @@ export const authOptions: NextAuthOptions = {
           walletProvider,
         } = credentials;
 
-        if (
-          !ethWalletAddress ||
-          !btcWalletAddress ||
-          !walletChainId ||
-          !walletProvider
-        ) {
+        if (!ethWalletAddress || !walletChainId || !walletProvider) {
           throw new Error("Invalid credentials");
         }
 
-        const user = await db.user.findFirst({
+        let user = await db.user.findFirst({
           where: { ethAddress: ethWalletAddress },
         });
 
         if (!user) {
-          throw new Error("User not found");
+          user = await db.user.create({
+            data: {
+              ethAddress: ethWalletAddress,
+              btcAddress: btcWalletAddress || null,
+              walletChainId: walletChainId || null,
+              walletProvider: walletProvider || null,
+              role: 0,
+              name: "david",
+            },
+          });
         }
 
         return {
